@@ -39,7 +39,9 @@ const Header = () => {
       {/* right */}
 
       <div className="flex w-1/3 h-12 items-center justify-end space-x-1 md:space-x-2">
-        <p className="text-sm hidden md:inline cursor-pointer">Become a host</p>
+        <p className="text-sm font-semibold hidden md:inline cursor-pointer">
+          Become a host
+        </p>
         <GlobeAltIcon className="h-6 text-gray-500 cursor-pointer" />
         <div className="flex rounded-full shadow-md space-x-1 py-1 px-2 items-center">
           <MenuIcon className="h-6 text-gray-500 cursor-pointer" />
