@@ -1,5 +1,11 @@
 import Image from "next/image";
-import { SearchIcon } from "@heroicons/react/solid";
+import {
+  SearchIcon,
+  GlobeAltIcon,
+  MenuIcon,
+  UserCircleIcon,
+  UsersIcon,
+} from "@heroicons/react/solid";
 
 const Header = () => {
   return (
@@ -23,7 +29,7 @@ const Header = () => {
 
       <div className="flex flex-grow items-center h-12 shadow-md md:border-2 rounded-full">
         <input
-          className="bg-transparent outline-none flex-grow px-3"
+          className="bg-transparent outline-none flex-grow px-3 text-sm text-gray-600 placeholder-gray-400"
           type="text"
           placeholder="Start your search"
         />
@@ -32,7 +38,14 @@ const Header = () => {
 
       {/* right */}
 
-      <div className="flex w-1/3"></div>
+      <div className="flex w-1/3 h-12 items-center justify-end space-x-1 md:space-x-2">
+        <p className="text-sm hidden md:inline cursor-pointer">Become a host</p>
+        <GlobeAltIcon className="h-6 text-gray-500 cursor-pointer" />
+        <div className="flex rounded-full shadow-md space-x-1 py-1 px-2 items-center">
+          <MenuIcon className="h-6 text-gray-500 cursor-pointer" />
+          <UserCircleIcon className="h-6 text-gray-500 cursor-pointer" />
+        </div>
+      </div>
     </header>
   );
 };
