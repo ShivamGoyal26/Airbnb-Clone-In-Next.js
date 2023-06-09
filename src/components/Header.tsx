@@ -23,7 +23,7 @@ const Header = () => {
         />
       </div>
       {/* middle  */}
-      <div className="mx-2 sm:mx-0 flex flex-grow items-center h-12 shadow-md md:border-2 rounded-full">
+      <div className="mx-2 sm:mx-0 flex w-full sm:w-1/3 items-center h-12 shadow-md md:border-2 rounded-full">
         <input
           className="bg-transparent outline-none flex-grow px-3 text-sm text-gray-600 placeholder-gray-400"
           type="text"
