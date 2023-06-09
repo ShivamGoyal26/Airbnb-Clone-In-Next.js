@@ -8,6 +8,7 @@ import Card from "@/components/Card";
 import LargeCard from "@/components/LargeCard";
 import { cardDataTypes, cardTypes, largeCardTypes } from "@/types";
 import { GetStaticProps } from "next";
+import Footer from "@/components/Footer";
 
 // export const getStaticProps: GetStaticProps = async () => {
 //   // Fetch data from an API
@@ -56,6 +57,7 @@ export default function Page(props: any) {
 
         <LargeCard item={data} />
       </main>
+      <Footer />
     </div>
   );
 }
