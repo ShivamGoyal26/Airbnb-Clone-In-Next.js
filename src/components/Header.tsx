@@ -32,7 +32,7 @@ const Header = () => {
         <SearchIcon className="h-8 mr-3 bg-red-400 text-white rounded-full p-2 cursor-pointer hidden md:inline-flex" />
       </div>
       {/* right */}
-      <div className="flex w-1/4 sm:w-1/3 h-12 items-center justify-end sm:justify-between space-x-0 sm:space-x-2">
+      <div className="flex w-1/4 sm:w-1/3 h-12 items-center justify-between sm:justify-end space-x-0 sm:space-x-2">
         <p className="text-sm font-semibold hidden md:inline cursor-pointer">
           Become a host
         </p>
