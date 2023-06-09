@@ -29,8 +29,8 @@ export default async function Page() {
       <Banner />
 
       <main className="max-w-7xl mx-auto p-4">
-        <h2 className="font-semibold text-2xl  md:text-4xl pb-4">
-          Exlpore Nearby
+        <h2 className="font-semibold text-2xl  md:text-4xl pb-4 mt-6">
+          Exlpore <span className="text-red-400">Nearby</span>
         </h2>
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {/* pull some data from a server - API endpoints */}
@@ -40,7 +40,7 @@ export default async function Page() {
         </section>
 
         <h2 className="font-semibold text-2xl  md:text-4xl pb-4 mt-10">
-          Live Anywhere
+          Live <span className="text-red-400">Anywhere</span>
         </h2>
         <section className="flex space-x-4 overflow-scroll scrollbar-hide p-3 -ml-3">
           {/* pull some data from a server - API endpoints */}
