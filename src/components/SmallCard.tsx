@@ -1,15 +1,19 @@
-import { cardDataTypes } from "@/types";
 import Image from "next/image";
 
 type propsTypes = {
-  item: cardDataTypes;
+  item: CardDataTypes;
 };
 const SmallCard = (props: propsTypes) => {
   return (
     <div className="flex items-center m-2 rounded-lg mt-5 space-x-4 cursor-pointer hover:bg-gray-100 hover:scale-105 transition transform ease-out duration-200">
       {/* left */}
       <div className="relative h-16 w-16 ">
-        <Image className="rounded-lg" layout="fill" src={props.item.img} />
+        <Image
+          alt="Airbnb"
+          className="rounded-lg"
+          layout="fill"
+          src={props.item.img}
+        />
       </div>
 
       {/* right */}

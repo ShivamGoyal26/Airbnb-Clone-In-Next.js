@@ -6,24 +6,18 @@ import { hotelsData } from "@/constants/data";
 import { cardsData } from "@/constants/cardsData";
 import Card from "@/components/Card";
 import LargeCard from "@/components/LargeCard";
-import { cardDataTypes, cardTypes, largeCardTypes } from "@/types";
-import { GetStaticProps } from "next";
 import Footer from "@/components/Footer";
+import axios from "axios";
 
-// export const getStaticProps: GetStaticProps = async () => {
-//   // Fetch data from an API
-//   const response = await fetch("https://links.papareact.com/pyp");
-//   const data = await response.json();
+// async function getCardData() {
+//   console.log("this");
+//   const response = await axios.get("https://links.papareact.com/pyp");
+//   console.log(response);
+//   return response.data;
+// }
 
-//   return {
-//     props: {
-//       data,
-//     },
-//   };
-// };
-
-export default function Page(props: any) {
-  const data = {
+export default async function Page() {
+  const data: any = {
     img: "https://links.papareact.com/4cj",
     title: "The Greatest Outdoors",
     description: "Wishlists curated by Airbnb.",

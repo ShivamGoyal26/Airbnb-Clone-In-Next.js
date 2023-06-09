@@ -10,6 +10,7 @@ const LargeCard = (props: propsTypes) => {
     <section className="relative my-8 sm:my-16 cursor-pointer">
       <div className="relative h-96 min-w-[300px]">
         <Image
+          alt="Airbnb"
           className="rounded-2xl"
           objectFit="cover"
           layout="fill"

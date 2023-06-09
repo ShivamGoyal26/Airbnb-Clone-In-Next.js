@@ -12,6 +12,7 @@ const Header = () => {
       {/* left */}
       <div className="relative w-1/3 flex h-16">
         <Image
+          alt="Airbnb"
           className="cursor-pointer"
           layout="fill"
           objectPosition="left"
