@@ -5,8 +5,12 @@ import SmallCard from "@/components/SmallCard";
 import { hotelsData } from "@/constants/data";
 import { cardsData } from "@/constants/cardsData";
 import Card from "@/components/Card";
+import LargeCard from "@/components/LargeCard";
+import { cardDataTypes, cardTypes, largeCardTypes } from "@/types";
+import { GetStaticProps } from "next";
 
-// export async function getStaticProps() {
+// export const getStaticProps: GetStaticProps = async () => {
+//   // Fetch data from an API
 //   const response = await fetch("https://links.papareact.com/pyp");
 //   const data = await response.json();
 
@@ -15,9 +19,15 @@ import Card from "@/components/Card";
 //       data,
 //     },
 //   };
-// }
+// };
 
 export default function Page(props: any) {
+  const data = {
+    img: "https://links.papareact.com/4cj",
+    title: "The Greatest Outdoors",
+    description: "Wishlists curated by Airbnb.",
+    buttonText: "Get  Inspired",
+  };
   return (
     <div>
       <Header />
@@ -29,8 +39,8 @@ export default function Page(props: any) {
         </h2>
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {/* pull some data from a server - API endpoints */}
-          {hotelsData.map((item, index) => {
-            return <SmallCard key={index} item={item} />;
+          {hotelsData.map((item: any, index: number) => {
+            return <SmallCard key={index.toString()} item={item} />;
           })}
         </section>
 
@@ -39,10 +49,12 @@ export default function Page(props: any) {
         </h2>
         <section className="flex space-x-4 overflow-scroll scrollbar-hide p-3 -ml-3">
           {/* pull some data from a server - API endpoints */}
-          {cardsData.map((item, index) => {
-            return <Card key={index} item={item} />;
+          {cardsData.map((item: any, index: number) => {
+            return <Card key={index.toString()} item={item} />;
           })}
         </section>
+
+        <LargeCard item={data} />
       </main>
     </div>
   );
