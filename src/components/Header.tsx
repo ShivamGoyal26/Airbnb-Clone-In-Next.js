@@ -8,7 +8,7 @@ import {
 
 const Header = () => {
   return (
-    <header className="sticky items-center top-0 z-50 h-20 flex justify-between bg-white shadow-md px-1 md:px-5">
+    <header className="sticky items-center top-0 z-50 h-20 flex justify-between bg-white shadow-md px-3 md:px-5">
       {/* left */}
       <div className="relative w-1/3 flex h-16">
         <Image
