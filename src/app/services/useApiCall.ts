@@ -2,6 +2,7 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { toast } from "react-hot-toast";
 import { apiTypes } from "./api";
+import useLoading from "../hooks/userLoading";
 
 // Files
 
@@ -11,35 +12,35 @@ const getInstance = ({
   params,
   extraAdditionToHeader,
 }: any) => {
-  const tokens = store.getState().auth.tokens;
-  const accessToken = store.getState().auth.accessToken;
+  // const tokens = store.getState().auth.tokens;
+  // const accessToken = store.getState().auth.accessToken;
 
-  const isInternet = store.getState().common.isInternet;
+  // const isInternet = store.getState().common.isInternet;
   const instance = axios.create({
-    baseURL: api.baseUrl.DEMO_URL,
+    baseURL: "/",
   });
 
   const { CancelToken } = axios;
   const source = CancelToken.source();
 
-  function isTokenExpired() {
-    if (!tokens) {
-      return true;
-    }
-    const decodedToken: any = jwt_decode(tokens); // Assuming you are using a JWT access token
-    const expirationTime = decodedToken.exp * 1000; // Convert expiration time to milliseconds
+  // function isTokenExpired() {
+  //   if (!tokens) {
+  //     return true;
+  //   }
+  //   const decodedToken: any = jwt_decode(tokens); // Assuming you are using a JWT access token
+  //   const expirationTime = decodedToken.exp * 1000; // Convert expiration time to milliseconds
 
-    // Compare the current time with the expiration time
-    const currentTime = Date.now();
-    return currentTime >= expirationTime;
-  }
+  //   // Compare the current time with the expiration time
+  //   const currentTime = Date.now();
+  //   return currentTime >= expirationTime;
+  // }
 
   instance.interceptors.request.use(
     (request: any) => {
       request.data = data;
       request.params = params;
       request.cancelToken = source.token;
-      request.headers["UtcOffsetInSecond"] = getTimezoneOffsetInSeconds();
+      // request.headers["UtcOffsetInSecond"] = getTimezoneOffsetInSeconds();
       if (extraAdditionToHeader) {
         request.headers = { ...request.headers, ...extraAdditionToHeader };
       }
@@ -48,21 +49,21 @@ const getInstance = ({
       } else {
         request.headers["Content-Type"] = "application/json";
       }
-      if (tokens) {
-        request.headers["Authorization"] = "Bearer " + tokens;
-      }
-      if (accessToken) {
-        request.headers["accessToken"] = accessToken;
-      }
+      // if (tokens) {
+      //   request.headers["Authorization"] = "Bearer " + tokens;
+      // }
+      // if (accessToken) {
+      //   request.headers["accessToken"] = accessToken;
+      // }
 
-      if (!isInternet) {
-        source.cancel("Cancelled");
-      }
-      if (__DEV__) {
-        info(request.url);
-      } else {
-        info(request.url, request.data);
-      }
+      // if (!isInternet) {
+      //   source.cancel("Cancelled");
+      // }
+      // if (__DEV__) {
+      //   info(request.url);
+      // } else {
+      //   info(request.url, request.data);
+      // }
       return request;
     },
     (error) => {
@@ -73,15 +74,19 @@ const getInstance = ({
   instance.interceptors.response.use(
     function (response) {
       if (response.data.responseCode === 222) {
-        store.dispatch(signOutManager());
+        // store.dispatch(signOutManager());
         throw new Error(response.data.message);
       }
       return response;
     },
     function (error) {
-      if (error?.response?.status === 401 && isTokenExpired()) {
-        store.dispatch(signOutManager());
-        throw new Error(localization.sessionExpired);
+      if (
+        error?.response?.status === 401
+        // &&
+        // isTokenExpired()
+      ) {
+        // store.dispatch(signOutManager());
+        throw new Error("Session has been expired");
         // // Refresh the token and resend the original request
         // return refreshAccessToken().then(newToken => {
         //   // Update the access token
@@ -113,7 +118,7 @@ const useApiCall = async ({
   extraAdditionToHeader = null,
 }: any) => {
   if (enableLoader) {
-    store.dispatch(setLoading(true));
+    // useLoading().startLoading();
   }
   const instance = getInstance({
     hasImage,
@@ -154,10 +159,13 @@ const useApiCall = async ({
   } catch (error: any) {
     console.log("Error in catch", error.message);
     if (error.message !== "Cancelled") {
-      toast.error(error.message);
+      toast.error(error.message, {
+        duration: 2000,
+      });
     }
   } finally {
-    store.dispatch(setLoading(false));
+    // useLoading().stopLoading();
+    // useLoading().stopModalLoading();
   }
 };
 

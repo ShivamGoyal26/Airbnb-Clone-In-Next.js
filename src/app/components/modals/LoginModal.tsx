@@ -1,6 +1,7 @@
 "use client";
 
 import axios from "axios";
+import { signIn } from "next-auth/react";
 import {
   AiFillGithub,
   AiOutlineEyeInvisible,
@@ -10,7 +11,6 @@ import { BiDollar } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import { useCallback, useRef, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import useRegisterModal from "@/app/hooks/useRegisterModal";
 import Modal from "./Modal";
 import Heading from "../Heading";
 import Input from "../inputs/Input";
@@ -19,10 +19,13 @@ import Button from "../Button";
 import { emailValidation, passwordValidation } from "@/app/validators";
 import useLoading from "@/app/hooks/userLoading";
 import { useRegisterAPI } from "@/app/services/auth";
+import useLoginModal from "@/app/hooks/useLoginModal";
+import { useRouter } from "next/navigation";
 
-const RegisterModal = () => {
-  const registerModal = useRegisterModal();
+const LoginModal = () => {
+  const loginModal = useLoginModal();
   const loadingModule = useLoading();
+  const router = useRouter();
   const [type, setType] = useState("password");
 
   const emailRef = useRef(null);
@@ -35,7 +38,6 @@ const RegisterModal = () => {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      name: "",
       email: "",
       password: "",
     },
@@ -49,27 +51,22 @@ const RegisterModal = () => {
     loadingModule.startModalLoading();
     loadingModule.startLoading();
 
-    const res = await useRegisterAPI(data);
+    const res = await signIn("credentials", { ...data, redirect: false }).then(
+      (callback) => {
+        console.log(callback);
+        loadingModule.stopModalLoading();
+        loadingModule.stopLoading();
+        if (callback?.ok) {
+          toast.success("Successfully Logged in!");
+          router.refresh();
+          loginModal.onClose();
+        }
+        if (callback?.error) {
+          toast.error(callback.error);
+        }
+      }
+    );
     console.log(res);
-    if (res) {
-      registerModal.onClose();
-      toast.success("Successfully registered!");
-    }
-
-    loadingModule.stopModalLoading();
-    loadingModule.stopLoading();
-
-    // axios
-    //   .post("/api/register", data)
-    //   .then(() => {
-    //     registerModal.onClose();
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   })
-    //   .finally(() => {
-    //     setLoading(false);
-    //   });
   };
 
   const handleKeyDown = (event: any, ref: any) => {
@@ -82,19 +79,8 @@ const RegisterModal = () => {
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading title="Welcome to Airbnb" subtitle="Create an account!" />
+      <Heading title="Welcome back" subtitle="Login to your account!" />
 
-      <Input
-        inputRef={nameRef}
-        id="name"
-        type="text"
-        label="Name"
-        disabled={loadingModule.isLoading}
-        register={register}
-        errors={errors}
-        required={"Please enter your name"}
-        onKeyDown={(event: any) => handleKeyDown(event, emailRef)}
-      />
       <Input
         inputRef={emailRef}
         id="email"
@@ -142,7 +128,7 @@ const RegisterModal = () => {
         <div className="flex flex-row items-center gap-2 justify-center">
           <div>Already have an account?</div>
           <div
-            onClick={registerModal.onClose}
+            onClick={loginModal.onClose}
             className="text-neutral-800 cursor-pointer hover:underline"
           >
             Log in
@@ -154,11 +140,11 @@ const RegisterModal = () => {
 
   return (
     <Modal
-      isOpen={registerModal.isOpen}
+      isOpen={loginModal.isOpen}
       disabled={loadingModule.isLoading}
-      title="Register"
+      title="Login"
       actionLabel="Continue"
-      onClose={registerModal.onClose}
+      onClose={loginModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
       footer={footerContent}
@@ -166,4 +152,4 @@ const RegisterModal = () => {
   );
 };
 
-export default RegisterModal;
+export default LoginModal;

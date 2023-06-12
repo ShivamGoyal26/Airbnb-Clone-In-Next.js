@@ -1,7 +1,7 @@
 "use client";
 
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
-import { BiDollar } from "react-icons/bi";
+import { IconType } from "react-icons";
 
 interface InputProps {
   id: string;
@@ -9,9 +9,16 @@ interface InputProps {
   type?: string;
   disabled?: boolean;
   formatPrice?: boolean;
-  required?: boolean;
+  required?: string;
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors;
+  onKeyDown?: any;
+  inputRef?: any;
+  validations?: object;
+  leftIcon?: IconType;
+  rightIcon?: IconType;
+  rightIconAction?: () => void;
+  leftIconAction?: () => void;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -23,30 +30,39 @@ const Input: React.FC<InputProps> = ({
   register,
   required,
   errors,
+  onKeyDown,
+  inputRef,
+  validations,
+  leftIcon: LeftIcon,
+  rightIcon: RightIcon,
+  rightIconAction,
+  leftIconAction,
 }) => {
   return (
-    <div className="w-full relative">
-      {formatPrice && (
-        <BiDollar
-          size={24}
-          className="
-            text-neutral-700
-            absolute
-            top-5
-            left-2
-          "
-        />
-      )}
-      <input
-        id={id}
-        disabled={disabled}
-        {...register(id, { required })}
-        placeholder=" "
-        type={type}
-        className={`
+    <div className="w-full relative ">
+      <div className="flex items-center justify-between">
+        {LeftIcon && (
+          <button
+            className="absolute left-2"
+            onClick={leftIconAction}
+            disabled={!leftIconAction}
+          >
+            <LeftIcon size={24} />
+          </button>
+        )}
+        <input
+          onKeyDown={onKeyDown}
+          id={id}
+          disabled={disabled}
+          {...register(id, {
+            required: required ? required : false,
+            ...validations,
+          })}
+          placeholder=" "
+          type={type}
+          className={`
           peer
           w-full
-          p-4
           pt-6 
           font-light 
           bg-white 
@@ -57,12 +73,26 @@ const Input: React.FC<InputProps> = ({
           disabled:opacity-70
           disabled:cursor-not-allowed
           ${formatPrice ? "pl-9" : "pl-4"}
+          ${RightIcon ? "pr-8" : "pr-4"}
+          ${LeftIcon ? "pl-8" : "pl-4"}
+          py-4
           ${errors[id] ? "border-rose-500" : "border-neutral-300"}
           ${errors[id] ? "focus:border-rose-500" : "focus:border-black"}
         `}
-      />
-      <label
-        className={`
+        />
+        {RightIcon && (
+          <button
+            className="absolute right-2"
+            onClick={rightIconAction}
+            disabled={!rightIconAction}
+          >
+            <RightIcon size={24} />
+          </button>
+        )}
+
+        <label
+          className={`
+          ${LeftIcon ? "pl-4" : "pl-0"}
           absolute 
           text-md
           duration-150 
@@ -70,7 +100,7 @@ const Input: React.FC<InputProps> = ({
           -translate-y-3 
           top-5 
           z-10 
-          origin-[0] 
+          origin-[0]
           ${formatPrice ? "left-9" : "left-4"}
           peer-placeholder-shown:scale-100 
           peer-placeholder-shown:translate-y-0 
@@ -78,9 +108,13 @@ const Input: React.FC<InputProps> = ({
           peer-focus:-translate-y-4
           ${errors[id] ? "text-rose-500" : "text-zinc-400"}
         `}
-      >
-        {label}
-      </label>
+        >
+          {label}
+        </label>
+      </div>
+      {errors[id] && (
+        <span className="text-rose-500 ">{errors[id]["message"]}</span>
+      )}
     </div>
   );
 };

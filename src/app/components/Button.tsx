@@ -1,7 +1,8 @@
 "use client";
 
 import { IconType } from "react-icons";
-
+import { BeatLoader } from "react-spinners";
+import useLoading from "../hooks/userLoading";
 interface ButtonProps {
   label: string;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -9,6 +10,8 @@ interface ButtonProps {
   outline?: boolean;
   small?: boolean;
   icon?: IconType;
+  disableLoader?: boolean;
+  loaderColor?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -18,7 +21,10 @@ const Button: React.FC<ButtonProps> = ({
   outline,
   small,
   icon: Icon,
+  disableLoader,
+  loaderColor,
 }) => {
+  const loadingModule = useLoading();
   return (
     <button
       disabled={disabled}
@@ -44,8 +50,19 @@ const Button: React.FC<ButtonProps> = ({
         ${small ? "border-[1px]" : "border-2"}
       `}
     >
-      {Icon && <Icon size={24} />}
-      {label}
+      {disableLoader ? (
+        <>
+          {Icon && <Icon size={24} />}
+          {label}
+        </>
+      ) : loadingModule.isLoading && !loadingModule.modalLoading ? (
+        <BeatLoader size={10} color={loaderColor ? loaderColor : "#fff"} />
+      ) : (
+        <>
+          {Icon && <Icon size={24} />}
+          {label}
+        </>
+      )}
     </button>
   );
 };
