@@ -17,7 +17,7 @@ import { toast } from "react-hot-toast";
 import Button from "../Button";
 import { emailValidation, passwordValidation } from "@/app/validators";
 import useLoading from "@/app/hooks/userLoading";
-import { useRegisterAPI } from "@/app/services/auth";
+import { registerApi } from "@/app/services/auth";
 import useLoginModal from "@/app/hooks/useLoginModal";
 
 const RegisterModal = () => {
@@ -55,7 +55,7 @@ const RegisterModal = () => {
     loadingModule.startModalLoading();
     loadingModule.startLoading();
 
-    const res = await useRegisterAPI(data);
+    const res = await registerApi(data);
     console.log(res);
     if (res) {
       registerModal.onClose();

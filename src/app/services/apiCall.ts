@@ -108,7 +108,7 @@ const getInstance = ({
   return instance;
 };
 
-const useApiCall = async ({
+const apiCall = async ({
   hasImage = 0,
   type,
   url,
@@ -169,4 +169,4 @@ const useApiCall = async ({
   }
 };
 
-export default useApiCall;
+export default apiCall;
