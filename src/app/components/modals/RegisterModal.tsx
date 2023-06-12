@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import {
   AiFillGithub,
   AiOutlineEyeInvisible,
@@ -19,9 +18,11 @@ import Button from "../Button";
 import { emailValidation, passwordValidation } from "@/app/validators";
 import useLoading from "@/app/hooks/userLoading";
 import { useRegisterAPI } from "@/app/services/auth";
+import useLoginModal from "@/app/hooks/useLoginModal";
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
   const loadingModule = useLoading();
   const [type, setType] = useState("password");
 
@@ -41,6 +42,11 @@ const RegisterModal = () => {
     },
   });
 
+  const toggle = useCallback(() => {
+    registerModal.onClose();
+    loginModal.onOpen();
+  }, [loginModal, registerModal]);
+
   const togglePasswordType = useCallback(() => {
     setType((pre) => (pre === "password" ? "text" : "password"));
   }, []);
@@ -58,18 +64,6 @@ const RegisterModal = () => {
 
     loadingModule.stopModalLoading();
     loadingModule.stopLoading();
-
-    // axios
-    //   .post("/api/register", data)
-    //   .then(() => {
-    //     registerModal.onClose();
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   })
-    //   .finally(() => {
-    //     setLoading(false);
-    //   });
   };
 
   const handleKeyDown = (event: any, ref: any) => {
@@ -142,7 +136,7 @@ const RegisterModal = () => {
         <div className="flex flex-row items-center gap-2 justify-center">
           <div>Already have an account?</div>
           <div
-            onClick={registerModal.onClose}
+            onClick={toggle}
             className="text-neutral-800 cursor-pointer hover:underline"
           >
             Log in

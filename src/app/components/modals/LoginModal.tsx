@@ -18,18 +18,18 @@ import { toast } from "react-hot-toast";
 import Button from "../Button";
 import { emailValidation, passwordValidation } from "@/app/validators";
 import useLoading from "@/app/hooks/userLoading";
-import { useRegisterAPI } from "@/app/services/auth";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import { useRouter } from "next/navigation";
+import useRegisterModal from "@/app/hooks/useRegisterModal";
 
 const LoginModal = () => {
   const loginModal = useLoginModal();
+  const registerModal = useRegisterModal();
   const loadingModule = useLoading();
   const router = useRouter();
   const [type, setType] = useState("password");
 
   const emailRef = useRef(null);
-  const nameRef = useRef(null);
   const passwordRef = useRef(null);
 
   const {
@@ -66,7 +66,6 @@ const LoginModal = () => {
         }
       }
     );
-    console.log(res);
   };
 
   const handleKeyDown = (event: any, ref: any) => {
@@ -76,6 +75,11 @@ const LoginModal = () => {
       ref.current.focus();
     }
   };
+
+  const toggle = useCallback(() => {
+    loginModal.onClose();
+    registerModal.onOpen();
+  }, [loginModal, registerModal]);
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -126,12 +130,12 @@ const LoginModal = () => {
       />
       <div className="text-neutral-500 mt-4 font-light">
         <div className="flex flex-row items-center gap-2 justify-center">
-          <div>Already have an account?</div>
+          <div>{"Don't have an account?"}</div>
           <div
-            onClick={loginModal.onClose}
+            onClick={toggle}
             className="text-neutral-800 cursor-pointer hover:underline"
           >
-            Log in
+            Sign up
           </div>
         </div>
       </div>

@@ -11,6 +11,7 @@ import LoadingModal from "./components/modals/LoadingModal";
 import { persistor, store } from "./redux/Store";
 import LoginModal from "./components/modals/LoginModal";
 import getCurrentUser from "./actions/getCurrentUser";
+import RentModal from "./components/modals/RentModal";
 
 const font = Nunito({ subsets: ["latin"] });
 
@@ -33,6 +34,7 @@ export default async function RootLayout({
         <ClientOnly>
           <ToasterProvider />
           <RegisterModal />
+          <RentModal />
           <LoginModal />
           <LoadingModal />
           <Navbar currentUser={currentUser} />
