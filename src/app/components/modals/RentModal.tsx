@@ -71,6 +71,7 @@ const RentModal = () => {
 
   const category = watch("category");
   const location = watch("location");
+  console.log("sj");
 
   const Map = useMemo(
     () =>
