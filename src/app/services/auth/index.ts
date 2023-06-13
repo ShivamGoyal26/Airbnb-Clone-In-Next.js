@@ -1,12 +1,20 @@
 import { apiTypes } from "../api";
-import { REGISTER } from "../endpoints";
+import { LISTING, REGISTER } from "../endpoints";
 import apiCall from "../apiCall";
 
 export const registerApi = async (data: any) => {
-  console.log(">S>>S>S>S>S>", data);
   const res = await apiCall({
     type: apiTypes.post,
     url: REGISTER,
+    data: data,
+  });
+  return res;
+};
+
+export const listingPropertyApi = async (data: any) => {
+  const res = await apiCall({
+    type: apiTypes.post,
+    url: LISTING,
     data: data,
   });
   return res;
