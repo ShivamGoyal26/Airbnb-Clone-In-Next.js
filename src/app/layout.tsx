@@ -20,8 +20,6 @@ export const metadata = {
   description: "Let's build airbnb",
 };
 
-console.log("Home");
-
 export default async function RootLayout({
   children,
 }: {
