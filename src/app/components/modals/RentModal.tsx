@@ -110,10 +110,11 @@ const RentModal = () => {
     loadingModule.startLoading();
 
     const res = await listingPropertyApi(data);
-    console.log(res);
     if (res) {
       rentModal.onClose();
       router.refresh();
+      reset();
+      setStep(STEPS.CATEGORY);
       toast.success("Successfully Listed property!");
     }
 
